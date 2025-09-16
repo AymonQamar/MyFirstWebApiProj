@@ -19,6 +19,12 @@ Content-Type: application/json
   "Author": "John Green",
   "YearPublished": 2004
 }
+###
+POST {{rootURL}}/api/books/Filter-even
+Content-Type: application/json
+{
+  "numbers": [1, 2, 3, 4, 5, 6]
+}
 
 ###
 PUT {{rootURL}}/api/books/4
