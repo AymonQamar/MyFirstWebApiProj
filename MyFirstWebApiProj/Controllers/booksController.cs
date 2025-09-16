@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyFirstWebApiProj.Data;
 using MyFirstWebApiProj.Models;
+using MyFirstWebApiProj.DTOs;
 
 
 
@@ -40,7 +41,7 @@ namespace MyFirstWebApiProj.Controllers
         //};
         //<----DI---->
         //Injecting Dependency
-        private readonly FirstApiContext _context;
+        private readonly FirstApiContext _context;       
         public BooksController(FirstApiContext context)
         {
             this._context = context;
@@ -57,6 +58,17 @@ namespace MyFirstWebApiProj.Controllers
             if (book == null)
                 return NotFound();
             return Ok(book);
+        }
+        [HttpPost("Filter-even")]
+        public async Task<IActionResult> GetEvenNumbers([FromBody] NumberRequest request)
+        {
+            
+            if (request.Numbers == null || !request.Numbers.Any())
+            {
+                return BadRequest("List of numbers can not be empty");
+            }
+            var evens = request.Numbers.Where(n => n % 2  == 0);
+            return Ok(evens);
         }
         [HttpPost]
         public async Task<ActionResult<Book>> AddBook(Book newBook)
